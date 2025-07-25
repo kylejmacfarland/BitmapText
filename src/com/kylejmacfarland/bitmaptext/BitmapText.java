@@ -32,13 +32,27 @@ public class BitmapText {
 				outputFile += ".bmp";
 			}
 		}
-		if (createFile(args[0], outputFile)) {
+		boolean successful = true;
+		if (args.length < 3) {
+			successful = createFile(args[0], outputFile);
+		} else {
+			try {
+				int width = Integer.parseInt(args[2]);
+				if (width > 0) {
+					successful = createFile(args[0], outputFile, width);
+				} else {
+					successful = createFile(args[0], outputFile);
+				}
+			} catch (Exception ex) {
+				successful = createFile(args[0], outputFile);
+			}
+		}
+		if (successful) {
 			System.out.printf("Program complete. Image saved to \"%s\".", outputFile);
 		}
 	}
-	
+
 	private boolean createFile(String inputFile, String outputFile) {
-		Random rand = new Random();
 		byte[] secretMessage;
 		try {
 			secretMessage = readFile(inputFile);
@@ -48,7 +62,24 @@ public class BitmapText {
 			return false;
 		}
 		int width = (int) Math.ceil(Math.sqrt(Math.ceil((secretMessage.length + 2) / 3.0)));
-		int height = width;
+		return createFileFromBytes(inputFile, outputFile, width, secretMessage);
+	}
+	
+	private boolean createFile(String inputFile, String outputFile, int width) {
+		byte[] secretMessage;
+		try {
+			secretMessage = readFile(inputFile);
+		} catch (IOException ex) {
+			ex.printStackTrace();
+			System.out.printf("Could not read file \"%s\". Exiting program.\n", inputFile);
+			return false;
+		}
+		return createFileFromBytes(inputFile, outputFile, width, secretMessage);
+	}
+		
+	private boolean createFileFromBytes(String inputFile, String outputFile, int width, byte[] secretMessage) {
+		Random rand = new Random();
+		int height = Math.max(secretMessage.length / width / 3, 1);
 		int pixelDataSize = width * 3;
 		if (pixelDataSize % 4 != 0) {
 			pixelDataSize += 4 - width * 3 % 4;
@@ -113,8 +144,8 @@ public class BitmapText {
 	}
 	
 	private void printHelp() {
-		System.out.println("usage: bitmaptext.jar <text-file-path> <bmp-file-path> | [-h]");
-		System.out.println("Program takes a specified text file at the provided path and saves a bitmap image with the text file embedded.");
+		System.out.println("usage: bitmaptext.jar <text-file-path> [<bmp-file-path>] [<width>] | [-h]");
+		System.out.println("Program takes a specified text file at the provided path and saves a bitmap image of a given width with the text file embedded.");
 	}
 	
 	public static void main(String[] args) {
