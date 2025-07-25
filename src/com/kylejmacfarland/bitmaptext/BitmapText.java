@@ -11,6 +11,14 @@ import java.util.Random;
 public class BitmapText {
 	
 	BitmapText(String[] args) {
+		if (args.length == 0) {
+			printHelp();
+			return;
+		}
+		if (args.length == 1 && args[0].equals("-h")) {
+			printHelp();
+			return;
+		}
 		String outputFile;
 		if (args[0].indexOf(".") == -1) {
 			outputFile = args[0] + ".bmp";
@@ -95,6 +103,11 @@ public class BitmapText {
 		fos.write(intToBytes(2835, 4));			//vertical pixels per meter, not very important
 		fos.write(intToBytes(0, 4));			//number of colors per palette, 0 for all the colors
 		fos.write(intToBytes(0, 4));			//number of important colors per palette, 0 because every color is important
+	}
+	
+	private void printHelp() {
+		System.out.println("usage: bitmaptext.jar <text-file-path> | [-h]");
+		System.out.println("Program takes a specified text file at the provided path and saves a bitmap image with the text file embedded.");
 	}
 	
 	public static void main(String[] args) {
