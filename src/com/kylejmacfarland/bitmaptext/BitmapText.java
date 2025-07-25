@@ -20,10 +20,17 @@ public class BitmapText {
 			return;
 		}
 		String outputFile;
-		if (args[0].indexOf(".") == -1) {
-			outputFile = args[0] + ".bmp";
+		if (args.length == 1) {
+			if (args[0].indexOf(".") == -1) {
+				outputFile = args[0] + ".bmp";
+			} else {
+				outputFile = args[0].substring(0, args[0].lastIndexOf(".")) + ".bmp";
+			}
 		} else {
-			outputFile = args[0].substring(0, args[0].lastIndexOf(".")) + ".bmp";
+			outputFile = args[1];
+			if (!outputFile.endsWith(".bmp")) {
+				outputFile += ".bmp";
+			}
 		}
 		if (createFile(args[0], outputFile)) {
 			System.out.printf("Program complete. Image saved to \"%s\".", outputFile);
@@ -106,7 +113,7 @@ public class BitmapText {
 	}
 	
 	private void printHelp() {
-		System.out.println("usage: bitmaptext.jar <text-file-path> | [-h]");
+		System.out.println("usage: bitmaptext.jar <text-file-path> <bmp-file-path> | [-h]");
 		System.out.println("Program takes a specified text file at the provided path and saves a bitmap image with the text file embedded.");
 	}
 	
