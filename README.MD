@@ -8,4 +8,6 @@ A program to embed text files into bitmap images.
 
 BitmapText runs on command line. The program accepts the path to a text file as the first argument and will output a .bmp file.
 
+usage: bitmaptext.jar <text-file-path> [<bmp-file-path>] [<width>] | [-h]
+
 ![README.bmp](docs/image/README.bmp)
