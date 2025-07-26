@@ -1,5 +1,8 @@
 package com.kylejmacfarland.bitmaptext;
 
+import java.nio.file.InvalidPathException;
+import java.nio.file.Paths;
+
 public class BitmapText {
 	
 	public BitmapText(String[] args) {
@@ -17,8 +20,8 @@ public class BitmapText {
 		}
 		// Read user arguments.
 		boolean monochrome = false;
-		String inputFile = null;
-		String outputFile = null;
+		String inputPath = null;
+		String outputPath = null;
 		int width = -1;
 		int r = 255;
 		int g = 255;
@@ -30,15 +33,15 @@ public class BitmapText {
 					System.out.println("-i flag given but no file specified. Exiting program.");
 					return false;
 				}
-				inputFile = args[i];
+				inputPath = args[i];
 			} else if (args[i].equals("-o")) {
 				i++;
 				if (i >= args.length) {
 					break;
 				}
-				outputFile = args[i];
-				if (!outputFile.endsWith(".bmp")) {
-					outputFile += ".bmp";
+				outputPath = args[i];
+				if (!outputPath.endsWith(".bmp")) {
+					outputPath += ".bmp";
 				}
 			} else if (args[i].equals("-w")) {
 				i++;
@@ -74,35 +77,53 @@ public class BitmapText {
 				i += 3;
 			}
 		}
-		if (inputFile == null) {
+		if (inputPath == null) {
 			System.out.println("No input file specified. Exiting program.");
 			return false;
 		}
 		// Add .bmp extention to output file if not present.
-		if (outputFile == null) {
-			if (inputFile.indexOf(".") == -1) {
-				outputFile = inputFile + ".bmp";
+		if (outputPath == null) {
+			if (inputPath.indexOf(".") == -1) {
+				outputPath = inputPath + ".bmp";
 			} else {
-				outputFile = inputFile.substring(0, inputFile.lastIndexOf(".")) + ".bmp";
+				outputPath = inputPath.substring(0, inputPath.lastIndexOf(".")) + ".bmp";
 			}
+		}
+		if (!isValidPath(inputPath)) {
+			System.out.printf("Input file \"%s\" is not a valid path.\n", inputPath);
+			return false;
+		}
+		if (!isValidPath(outputPath)) {
+			System.out.printf("Output file \"%s\" is not a valid path.\n", outputPath);
+			return false;
 		}
 		BitmapWriter bw = new BitmapWriter();
 		boolean successful = true;
 		if (width > 0) {
-			successful = bw.createFile(inputFile, outputFile, width, monochrome, r, g, b);
+			successful = bw.createFile(inputPath, outputPath, width, monochrome, r, g, b);
 		} else {
-			successful = bw.createFile(inputFile, outputFile, monochrome, r, g, b);
+			successful = bw.createFile(inputPath, outputPath, monochrome, r, g, b);
 		}
 		if (successful) {
-			System.out.printf("Program complete. Image saved to \"%s\".", outputFile);
+			System.out.printf("Program complete. Image saved to \"%s\".", outputPath);
 		} else {
 			System.out.println("Failed to save image. Exiting program.");
 		}
 		return successful;
 	}
 	
+	private boolean isValidPath(String path) {
+		try {
+			Paths.get(path);
+			return true;
+		} catch (InvalidPathException ex) {
+			ex.printStackTrace();
+		}
+		return false;
+	}
+	
 	private void printHelp() {
-		System.out.println("usage: bitmaptext.jar -i <input-file> [-o <output-file>] [-w <width>] [-m [-c <r> <g> <b>]] | [-h]");
+		System.out.println("usage: bitmaptext.jar -i <input-path> [-o <output-path>] [-w <width>] [-m [-c <r> <g> <b>]] | [-h]");
 		System.out.println("BitmapText will embed a text file in a bitmap image.");
 		System.out.println("-i specifies the path to the file you want to embed.");
 		System.out.println("-o specifies the path of the output bitmap file. The file will add \".bmp\" to the end of the path if not already present.");
