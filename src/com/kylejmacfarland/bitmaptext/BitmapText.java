@@ -106,7 +106,7 @@ public class BitmapText {
 		System.out.println("BitmapText will embed a text file in a bitmap image.");
 		System.out.println("-i specifies the path to the file you want to embed.");
 		System.out.println("-o specifies the path of the output bitmap file. The file will add \".bmp\" to the end of the path if not already present.");
-		System.out.println("-w will create an image with the specified width. Without it, the program will create an image with width and height as close as possible. Non-integer arguments will be ignored");
+		System.out.println("-w will create an image with the specified width. Without it, the program will create an image with width and height as close as possible. Non-integer arguments will be ignored.");
 		System.out.println("-m creates an image with a single color. The program defaults to white when not specified with the -c flag.");
 		System.out.println("-c specifies the rgb values of the final image if the -m flag was set. Each value must be an integer in range [0, 255]. Any invalid arguments will default the color to white.");
 		System.out.println("-h will show this help text. This help text will also be displayed if no arguments are passed to the program.");
