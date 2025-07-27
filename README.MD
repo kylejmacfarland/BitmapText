@@ -8,11 +8,10 @@ A program to embed text files into bitmap images.
 
 ## How to Use
 
-BitmapText runs on command line. The program accepts the path to a text file as the first argument and will output a .bmp file.
+BitmapText will embed a text file in a bitmap image.
+
 
 usage: `bitmaptext.jar -i <input-path> [-o <output-path>] [-w <width>] [-m [-c <r> <g> <b>]] | [-h]`
-
-BitmapText will embed a text file in a bitmap image.
 
 -i specifies the path to the file you want to embed.
 

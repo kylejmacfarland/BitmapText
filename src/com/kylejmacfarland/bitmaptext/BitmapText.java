@@ -123,8 +123,8 @@ public class BitmapText {
 	}
 	
 	private void printHelp() {
-		System.out.println("usage: bitmaptext.jar -i <input-path> [-o <output-path>] [-w <width>] [-m [-c <r> <g> <b>]] | [-h]");
 		System.out.println("BitmapText will embed a text file in a bitmap image.");
+		System.out.println("usage: bitmaptext.jar -i <input-path> [-o <output-path>] [-w <width>] [-m [-c <r> <g> <b>]] | [-h]");
 		System.out.println("-i specifies the path to the file you want to embed.");
 		System.out.println("-o specifies the path of the output bitmap file. The file will add \".bmp\" to the end of the path if not already present.");
 		System.out.println("-w will create an image with the specified width. Without it, the program will create an image with width and height as close as possible. Non-integer arguments will be ignored.");
